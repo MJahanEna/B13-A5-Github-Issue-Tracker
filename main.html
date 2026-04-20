@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!--           tailwind+daisy          -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/daisyui@5"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Manrope:wght@200..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style>
+      * {
+        font-family: "Geist", sans-serif;
+      }
+    </style>
+
+    <!-- Font Awesome-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-[#F8FAFC]">
+    <nav class="flex justify-between px-20 py-4 bg-white h-[78px] shadow-md">
+      <div class="flex items-center">
+        <img
+          src="./assets/github-logo.png"
+          class="w-[2.25rem] h-[2.3125rem] object-cover mr-4"
+        />
+        <h1 class="font-semibold text-[24px]">GitHub Issues Tracker</h1>
+      </div>
+      <div class="flex items-center">
+        <div class="relative">
+          <i
+            class="fa-brands fa-sistrix absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none z-10"
+          ></i>
+          <input
+            type="text"
+            class="input h-[2.75rem] border-gray-200 pl-10 text-[#64748b]"
+            placeholder="Search issues..."
+          />
+        </div>
+        <button class="btn bg-[#4A00FF] border-none text-white ml-4">
+          + New Issues
+        </button>
+      </div>
+    </nav>
+
+    <section
+      class="flex p-6 bg-white w-[1110px] h-[88px] shadow-md mt-[60px] mx-auto rounded-xl"
+    >
+      <button class="btn mr-2 w-[120px] h-[40px]">All</button>
+      <button class="btn mr-2 w-[120px] h-[40px]">Open</button>
+      <button class="btn mr-2 w-[120px] h-[40px]">Closed</button>
+    </section>
+
+    <section
+      id="main"
+      class="bg-white w-[1110px] shadow-md mt-[60px] mx-auto rounded-xl"
+    >
+      <div
+        id="issues"
+        class="flex justify-between items-center p-6 border-b-2 border-gray-200"
+      >
+        <div class="flex">
+          <div
+            class="w-[50px] h-[50px] bg-[#ECE4FF] rounded-full flex items-center justify-center mr-4"
+          >
+            <img src="./assets/Aperture.png" />
+          </div>
+          <div>
+            <label id="issueAmount" class="font-semibold text-[20px]"
+              >50 issues
+            </label>
+            <p class="text-[#64748B]">Track and manage your project issues</p>
+          </div>
+        </div>
+        <div class="flex">
+          <div class="flex justify-center items-center mr-4">
+            <div class="w-[12px] h-[12px] bg-[#00A96E] rounded-full mr-2"></div>
+            <p>Open</p>
+          </div>
+          <div class="flex justify-center items-center mr-4">
+            <div class="w-[12px] h-[12px] bg-[#A855F7] rounded-full mr-2"></div>
+            <p>Closed</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
