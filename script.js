@@ -53,7 +53,7 @@ function createCard(issue) {
     .join("");
 
   return `
-          <div class="Card w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] min-h-[256px] bg-white rounded-lg shadow-md border-t-4 ${borderColor} p-4 flex flex-col justify-between">
+          <div class="Card w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] min-h-[256px] bg-white rounded-lg shadow-md border-t-4 ${borderColor} p-4 flex flex-col justify-between" onclick="openModal(${issue.id})" style="cursor:pointer">
             <div>
               <div class="flex justify-between items-center">
                 <img src="${statusImg}" />
@@ -115,6 +115,67 @@ async function loadIssues() {
   const data = await res.json();
   allIssues = data.data;
   renderCards(allIssues);
+}
+
+// Priority badge styles for modal
+const modalPriorityStyles = {
+  high: "bg-red-500 text-white",
+  medium: "bg-yellow-400 text-white",
+  low: "bg-green-500 text-white",
+};
+
+async function openModal(id) {
+  const res = await fetch(
+    `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`,
+  );
+  const data = await res.json();
+  const issue = data.data;
+
+  // Title
+  document.getElementById("modal-title").textContent = issue.title;
+
+  // Status badge
+  const badge = document.getElementById("modal-status-badge");
+  badge.textContent = issue.status === "open" ? "Opened" : "Closed";
+  badge.className = `badge text-white text-sm px-3 py-1 rounded-full ${issue.status === "open" ? "bg-green-500" : "bg-purple-500"}`;
+
+  // Meta
+  document.getElementById("modal-meta").textContent =
+    `Opened by ${issue.author} • ${formatDate(issue.createdAt)}`;
+
+  // Labels
+  const labelsEl = document.getElementById("modal-labels");
+  labelsEl.innerHTML = issue.labels
+    .map((label) => {
+      const style = labelStyles[label] || {
+        btn: "btn-neutral",
+        border: "border-gray-400",
+        img: "",
+      };
+      const imgTag = style.img
+        ? `<img src="${style.img}" class="w-[12px] h-[12px]" />`
+        : "";
+      return `<button class="btn btn-soft ${style.btn} text-[12px] p-2 rounded-full h-[24px] ${style.border}">
+              ${imgTag} ${label.toUpperCase()}
+            </button>`;
+    })
+    .join("");
+
+  // Description
+  document.getElementById("modal-description").textContent = issue.description;
+
+  // Assignee
+  document.getElementById("modal-assignee").textContent =
+    issue.assignee || "Unassigned";
+
+  // Priority
+  const priorityEl = document.getElementById("modal-priority");
+  const priorityStyle =
+    modalPriorityStyles[issue.priority] || "bg-gray-400 text-white";
+  priorityEl.innerHTML = `<span class="px-4 py-1 rounded-full text-sm font-semibold ${priorityStyle}">${issue.priority.toUpperCase()}</span>`;
+
+  // Open modal
+  document.getElementById("issue_modal").showModal();
 }
 
 loadIssues();
