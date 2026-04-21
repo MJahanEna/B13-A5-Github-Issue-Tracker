@@ -4,33 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <!--           tailwind+daisy          -->
     <link
       href="https://cdn.jsdelivr.net/npm/daisyui@5"
       rel="stylesheet"
       type="text/css"
     />
-
-    <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Manrope:wght@200..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
-    <style>
-      * {
-        font-family: "Geist", sans-serif;
-      }
-    </style>
-
-    <!-- Font Awesome-->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
+    <style>
+      * {
+        font-family: "Geist", sans-serif;
+      }
+      .filter-btn.active {
+        background-color: #4a00ff;
+        color: white;
+      }
+    </style>
   </head>
   <body class="bg-[#F8FAFC]">
     <nav class="flex justify-between px-20 py-4 bg-white h-[78px] shadow-md">
@@ -44,9 +42,10 @@
       <div class="flex items-center">
         <div class="relative">
           <i
-            class="fa-brands fa-sistrix absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none z-10"
+            class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none z-10"
           ></i>
           <input
+            id="searchInput"
             type="text"
             class="input h-[2.75rem] border-gray-200 pl-10 text-[#64748b]"
             placeholder="Search issues..."
@@ -61,9 +60,27 @@
     <section
       class="flex p-6 bg-white w-[1110px] h-[88px] shadow-md mt-[60px] mx-auto rounded-xl"
     >
-      <button class="btn mr-2 w-[120px] h-[40px]">All</button>
-      <button class="btn mr-2 w-[120px] h-[40px]">Open</button>
-      <button class="btn mr-2 w-[120px] h-[40px]">Closed</button>
+      <button
+        id="filterAllBtn"
+        class="btn filter-btn active mr-2 w-[120px] h-[40px]"
+        onclick="filterIssues('all')"
+      >
+        All
+      </button>
+      <button
+        id="filterOpenBtn"
+        class="btn filter-btn mr-2 w-[120px] h-[40px]"
+        onclick="filterIssues('open')"
+      >
+        Open
+      </button>
+      <button
+        id="filterClosedBtn"
+        class="btn filter-btn mr-2 w-[120px] h-[40px]"
+        onclick="filterIssues('closed')"
+      >
+        Closed
+      </button>
     </section>
 
     <section
@@ -71,7 +88,6 @@
       class="bg-white w-[1110px] shadow-md mt-[60px] mx-auto rounded-xl"
     >
       <div
-        id="issues"
         class="flex justify-between items-center p-6 border-b-2 border-gray-200"
       >
         <div class="flex">
@@ -82,8 +98,8 @@
           </div>
           <div>
             <label id="issueAmount" class="font-semibold text-[20px]"
-              >50 issues
-            </label>
+              >0 issues</label
+            >
             <p class="text-[#64748B]">Track and manage your project issues</p>
           </div>
         </div>
@@ -99,45 +115,8 @@
         </div>
       </div>
 
-      <div id="Cards" class="bg-[#FBFBFB] h-[13760px] p-6">
-        <div
-          class="Card w-[256px] h-[256px] bg-white rounded-lg shadow-md border-t-4 border-[#00A96E] p-4"
-        >
-          <div class="flex justify-between items-center">
-            <img src="./assets/Open-Status.png" />
-            <button
-              class="btn btn-soft btn-error w-[80px] h-[24px] rounded-full"
-            >
-              HIGH
-            </button>
-          </div>
-          <div class="my-4">
-            <h3 class="font-semibold text-[14px]">
-              Fix navigation menu on mobile devices
-            </h3>
-            <p class="text-[12px] text-gray-400">
-              The navigation menu doesn't collapse properly on mobile devices...
-            </p>
-          </div>
-          <div class="flex">
-            <button
-              class="btn btn-soft btn-error text-[12px] mr-2 p-2 rounded-full w-[56px] h-[24px] border-red-400"
-            >
-              <img src="./assets/bug.png" class="w-[12px] h-[12px]" /> BUG
-            </button>
-            <button
-              class="btn btn-soft btn-warning text-[12px] p-1 rounded-full w-[112px] h-[24px] border-yellow-400 border-1.5"
-            >
-              <img src="./assets/help.png" class="w-[12px] h-[12px]" />
-              HELP WANTED
-            </button>
-          </div>
-          <hr class="border-t-2 border-gray-200 my-4 -mx-4" />
-          <p class="text-[12px] text-gray-400">
-            #1 by john_doe <br />1/15/2024
-          </p>
-        </div>
-      </div>
+      <div id="Cards" class="bg-[#FBFBFB] p-6 flex flex-wrap gap-4"></div>
     </section>
+    <script src="./script.js"></script>
   </body>
 </html>
