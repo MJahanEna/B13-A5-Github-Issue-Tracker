@@ -98,6 +98,16 @@ function filterIssues(status) {
   }
 }
 
+document.getElementById("searchInput").addEventListener("input", async (e) => {
+  const q = e.target.value.trim();
+  if (!q) return renderCards(allIssues);
+  const res = await fetch(
+    `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${q}`,
+  );
+  const data = await res.json();
+  renderCards(data.data || []);
+});
+
 async function loadIssues() {
   const res = await fetch(
     "https://phi-lab-server.vercel.app/api/v1/lab/issues",
