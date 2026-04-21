@@ -37,10 +37,8 @@
         class="modal-box w-[700px] h-[414px] max-w-none flex flex-col justify-between p-8"
       >
         <div>
-          <!-- Title -->
           <h3 id="modal-title" class="text-2xl font-bold mb-2"></h3>
 
-          <!-- Status + meta -->
           <div class="flex items-center gap-2 mb-4">
             <span
               id="modal-status-badge"
@@ -50,14 +48,11 @@
             <span id="modal-meta" class="text-gray-500 text-sm"></span>
           </div>
 
-          <!-- Labels -->
           <div id="modal-labels" class="flex flex-wrap gap-2 mb-4"></div>
 
-          <!-- Description -->
           <p id="modal-description" class="text-gray-500 text-sm"></p>
         </div>
 
-        <!-- Assignee + Priority box -->
         <div>
           <div class="bg-[#F8FAFC] rounded-xl p-4 flex gap-8 mb-4">
             <div>
@@ -70,7 +65,6 @@
             </div>
           </div>
 
-          <!-- Close button -->
           <div class="flex justify-end">
             <form method="dialog">
               <button class="btn bg-[#4A00FF] text-white border-none w-[100px]">
@@ -177,7 +171,11 @@
       <div
         id="Cards"
         class="bg-[#FBFBFB] p-4 md:p-6 flex flex-wrap gap-4 justify-center sm:justify-start"
-      ></div>
+      >
+        <div id="spinner" class="w-full flex justify-center items-center py-10">
+          <span class="loading loading-spinner loading-xl"></span>
+        </div>
+      </div>
     </section>
     <script src="./script.js"></script>
   </body>

@@ -22,9 +22,22 @@ const priorityStyles = {
   low: "btn-success",
 };
 
+const modalPriorityStyles = {
+  high: "bg-red-500 text-white",
+  medium: "bg-yellow-400 text-white",
+  low: "bg-green-500 text-white",
+};
+
 function formatDate(dateStr) {
   const d = new Date(dateStr);
   return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
+}
+
+function showSpinner() {
+  document.getElementById("Cards").innerHTML = `
+    <div class="w-full flex justify-center items-center py-10">
+      <span class="loading loading-spinner loading-xl"></span>
+    </div>`;
 }
 
 function createCard(issue) {
@@ -53,31 +66,30 @@ function createCard(issue) {
     .join("");
 
   return `
-          <div class="Card w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] min-h-[256px] bg-white rounded-lg shadow-md border-t-4 ${borderColor} p-4 flex flex-col justify-between" onclick="openModal(${issue.id})" style="cursor:pointer">
-            <div>
-              <div class="flex justify-between items-center">
-                <img src="${statusImg}" />
-                <button class="btn btn-soft ${priorityClass} w-[80px] h-[24px] rounded-full text-[12px]">
-                  ${issue.priority.toUpperCase()}
-                </button>
-              </div>
-              <div class="my-2">
-                <h3 class="font-semibold text-[14px] line-clamp-2">${issue.title}</h3>
-                <p class="text-[12px] text-gray-400 line-clamp-2">${issue.description}</p>
-              </div>
-              <div class="flex flex-wrap gap-1">${labelsHTML}</div>
-            </div>
-            <div>
-              <hr class="border-t-2 border-gray-200 my-2 -mx-4" />
-              <p class="text-[12px] text-gray-400">#${issue.id} by ${issue.author}<br>${formatDate(issue.createdAt)}</p>
-            </div>
-          </div>`;
+    <div class="Card w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] min-h-[256px] bg-white rounded-lg shadow-md border-t-4 ${borderColor} p-4 flex flex-col justify-between" onclick="openModal(${issue.id})" style="cursor:pointer">
+      <div>
+        <div class="flex justify-between items-center">
+          <img src="${statusImg}" />
+          <button class="btn btn-soft ${priorityClass} w-[80px] h-[24px] rounded-full text-[12px]">
+            ${issue.priority.toUpperCase()}
+          </button>
+        </div>
+        <div class="my-2">
+          <h3 class="font-semibold text-[14px] line-clamp-2">${issue.title}</h3>
+          <p class="text-[12px] text-gray-400 line-clamp-2">${issue.description}</p>
+        </div>
+        <div class="flex flex-wrap gap-1">${labelsHTML}</div>
+      </div>
+      <div>
+        <hr class="border-t-2 border-gray-200 my-2 -mx-4" />
+        <p class="text-[12px] text-gray-400">#${issue.id} by ${issue.author}<br>${formatDate(issue.createdAt)}</p>
+      </div>
+    </div>`;
 }
 
 function renderCards(issues) {
   const container = document.getElementById("Cards");
-  document.getElementById("issueAmount").textContent =
-    `${issues.length} issues`;
+  document.getElementById("issueAmount").textContent = `${issues.length} issues`;
   container.innerHTML = issues.map(createCard).join("");
 }
 
@@ -101,49 +113,38 @@ function filterIssues(status) {
 document.getElementById("searchInput").addEventListener("input", async (e) => {
   const q = e.target.value.trim();
   if (!q) return renderCards(allIssues);
+  showSpinner();
   const res = await fetch(
-    `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${q}`,
+    `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${q}`
   );
   const data = await res.json();
   renderCards(data.data || []);
 });
 
 async function loadIssues() {
-  const res = await fetch(
-    "https://phi-lab-server.vercel.app/api/v1/lab/issues",
-  );
+  showSpinner();
+  const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
   const data = await res.json();
   allIssues = data.data;
   renderCards(allIssues);
 }
 
-// Priority badge styles for modal
-const modalPriorityStyles = {
-  high: "bg-red-500 text-white",
-  medium: "bg-yellow-400 text-white",
-  low: "bg-green-500 text-white",
-};
-
 async function openModal(id) {
   const res = await fetch(
-    `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`,
+    `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`
   );
   const data = await res.json();
   const issue = data.data;
 
-  // Title
   document.getElementById("modal-title").textContent = issue.title;
 
-  // Status badge
   const badge = document.getElementById("modal-status-badge");
   badge.textContent = issue.status === "open" ? "Opened" : "Closed";
   badge.className = `badge text-white text-sm px-3 py-1 rounded-full ${issue.status === "open" ? "bg-green-500" : "bg-purple-500"}`;
 
-  // Meta
   document.getElementById("modal-meta").textContent =
     `Opened by ${issue.author} • ${formatDate(issue.createdAt)}`;
 
-  // Labels
   const labelsEl = document.getElementById("modal-labels");
   labelsEl.innerHTML = issue.labels
     .map((label) => {
@@ -161,20 +162,13 @@ async function openModal(id) {
     })
     .join("");
 
-  // Description
   document.getElementById("modal-description").textContent = issue.description;
+  document.getElementById("modal-assignee").textContent = issue.assignee || "Unassigned";
 
-  // Assignee
-  document.getElementById("modal-assignee").textContent =
-    issue.assignee || "Unassigned";
-
-  // Priority
   const priorityEl = document.getElementById("modal-priority");
-  const priorityStyle =
-    modalPriorityStyles[issue.priority] || "bg-gray-400 text-white";
+  const priorityStyle = modalPriorityStyles[issue.priority] || "bg-gray-400 text-white";
   priorityEl.innerHTML = `<span class="px-4 py-1 rounded-full text-sm font-semibold ${priorityStyle}">${issue.priority.toUpperCase()}</span>`;
 
-  // Open modal
   document.getElementById("issue_modal").showModal();
 }
 
