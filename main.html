@@ -31,52 +31,58 @@
     </style>
   </head>
   <body class="bg-[#F8FAFC]">
-    <nav class="flex justify-between px-20 py-4 bg-white h-[78px] shadow-md">
+    <nav
+      class="flex flex-col sm:flex-row justify-between gap-4 sm:gap-0 px-4 md:px-8 lg:px-20 py-4 bg-white min-h-[78px] shadow-md"
+    >
       <div class="flex items-center">
         <img
           src="./assets/github-logo.png"
           class="w-[2.25rem] h-[2.3125rem] object-cover mr-4"
         />
-        <h1 class="font-semibold text-[24px]">GitHub Issues Tracker</h1>
+        <h1 class="font-semibold text-lg sm:text-[24px]">
+          GitHub Issues Tracker
+        </h1>
       </div>
-      <div class="flex items-center">
-        <div class="relative">
+      <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-0">
+        <div class="relative w-full sm:w-auto">
           <i
             class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none z-10"
           ></i>
           <input
             id="searchInput"
             type="text"
-            class="input h-[2.75rem] border-gray-200 pl-10 text-[#64748b]"
+            class="input h-[2.75rem] border-gray-200 pl-10 text-[#64748b] w-full sm:w-auto"
             placeholder="Search issues..."
           />
         </div>
-        <button class="btn bg-[#4A00FF] border-none text-white ml-4">
+        <button
+          class="btn bg-[#4A00FF] border-none text-white ml-0 sm:ml-4 w-full sm:w-auto"
+        >
           + New Issues
         </button>
       </div>
     </nav>
 
     <section
-      class="flex p-6 bg-white w-[1110px] h-[88px] shadow-md mt-[60px] mx-auto rounded-xl"
+      class="flex flex-wrap gap-2 p-4 md:p-6 bg-white w-full max-w-[1110px] shadow-md mt-[60px] mx-auto rounded-xl"
     >
       <button
         id="filterAllBtn"
-        class="btn filter-btn active mr-2 w-[120px] h-[40px]"
+        class="btn filter-btn active mr-2 w-full sm:w-[120px] h-[40px]"
         onclick="filterIssues('all')"
       >
         All
       </button>
       <button
         id="filterOpenBtn"
-        class="btn filter-btn mr-2 w-[120px] h-[40px]"
+        class="btn filter-btn mr-2 w-full sm:w-[120px] h-[40px]"
         onclick="filterIssues('open')"
       >
         Open
       </button>
       <button
         id="filterClosedBtn"
-        class="btn filter-btn mr-2 w-[120px] h-[40px]"
+        class="btn filter-btn mr-2 w-full sm:w-[120px] h-[40px]"
         onclick="filterIssues('closed')"
       >
         Closed
@@ -85,37 +91,42 @@
 
     <section
       id="main"
-      class="bg-white w-[1110px] shadow-md mt-[60px] mx-auto rounded-xl"
+      class="bg-white w-full max-w-[1110px] shadow-md mt-[60px] mx-auto rounded-xl"
     >
       <div
-        class="flex justify-between items-center p-6 border-b-2 border-gray-200"
+        class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 md:p-6 border-b-2 border-gray-200"
       >
-        <div class="flex">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center">
           <div
-            class="w-[50px] h-[50px] bg-[#ECE4FF] rounded-full flex items-center justify-center mr-4"
+            class="w-[50px] h-[50px] bg-[#ECE4FF] rounded-full flex items-center justify-center mr-4 mb-2 sm:mb-0"
           >
             <img src="./assets/Aperture.png" />
           </div>
           <div>
-            <label id="issueAmount" class="font-semibold text-[20px]"
+            <label id="issueAmount" class="font-semibold text-lg md:text-[20px]"
               >0 issues</label
             >
-            <p class="text-[#64748B]">Track and manage your project issues</p>
+            <p class="text-[#64748B] text-sm md:text-base">
+              Track and manage your project issues
+            </p>
           </div>
         </div>
-        <div class="flex">
-          <div class="flex justify-center items-center mr-4">
+        <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+          <div class="flex justify-center items-center">
             <div class="w-[12px] h-[12px] bg-[#00A96E] rounded-full mr-2"></div>
-            <p>Open</p>
+            <p class="text-sm">Open</p>
           </div>
-          <div class="flex justify-center items-center mr-4">
+          <div class="flex justify-center items-center">
             <div class="w-[12px] h-[12px] bg-[#A855F7] rounded-full mr-2"></div>
-            <p>Closed</p>
+            <p class="text-sm">Closed</p>
           </div>
         </div>
       </div>
 
-      <div id="Cards" class="bg-[#FBFBFB] p-6 flex flex-wrap gap-4"></div>
+      <div
+        id="Cards"
+        class="bg-[#FBFBFB] p-4 md:p-6 flex flex-wrap gap-4 justify-center sm:justify-start"
+      ></div>
     </section>
     <script src="./script.js"></script>
   </body>

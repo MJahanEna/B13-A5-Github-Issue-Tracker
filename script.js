@@ -53,7 +53,7 @@ function createCard(issue) {
     .join("");
 
   return `
-          <div class="Card w-[256px] h-[256px] bg-white rounded-lg shadow-md border-t-4 ${borderColor} p-4 flex flex-col justify-between">
+          <div class="Card w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] min-h-[256px] bg-white rounded-lg shadow-md border-t-4 ${borderColor} p-4 flex flex-col justify-between">
             <div>
               <div class="flex justify-between items-center">
                 <img src="${statusImg}" />
